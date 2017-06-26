@@ -46,7 +46,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onPlaceSelected(Place place) {
                 // TODO: obter informações sobre o local selecionado.
-
+                //s
                 System.out.println("Lugar selecionado: "+ place.getLatLng());
                 LatLng enderecoSelecionadoLtLn = place.getLatLng();
                 mMap.addMarker(new MarkerOptions().position(enderecoSelecionadoLtLn).title(place.getName().toString()));
