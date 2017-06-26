@@ -1,9 +1,14 @@
 package crudint.com.br.crudintegration;
 
+import android.app.DialogFragment;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.ListView;
 
@@ -47,12 +52,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onPlaceSelected(Place place) {
                 // TODO: obter informações sobre o local selecionado.
                 //s
-                System.out.println("Lugar selecionado: "+ place.getLatLng());
+                //System.out.println("Lugar selecionado: "+ place.getLatLng());
                 LatLng enderecoSelecionadoLtLn = place.getLatLng();
                 mMap.addMarker(new MarkerOptions().position(enderecoSelecionadoLtLn).title(place.getName().toString()));
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(enderecoSelecionadoLtLn));
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(enderecoSelecionadoLtLn, 12.0f));
-                //Log.i(TAG, "Place: " + place.getName());
+                openEventAct(place);
+
+
             }
 
             @Override
@@ -115,5 +122,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));*/
     }
+
+    public void openEventAct(Place place){
+        Intent intent = new Intent(this, EventActivity.class);
+        intent.putExtra("LUGAR", place.getName());
+        intent.putExtra("LATLONG", place.getLatLng());
+        startActivity(intent);
+    }
+
+
+
 
 }
