@@ -23,7 +23,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import crudint.com.br.crudintegration.util.GPSTracker;
+
 import crudint.com.br.crudintegration.util.GooglePlacesAutompleteAdapter;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -111,9 +111,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        GPSTracker gps = new GPSTracker(this);
+        //GPSTracker gps = new GPSTracker(this);
 
-        LatLng lalg = new LatLng(gps.getLatitude(),gps.getLongitude());
+        LatLng lalg = new LatLng(-29.166709,-51.516986);
 
         mMap.addMarker(new MarkerOptions().position(lalg).title("Sua localização"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(lalg));

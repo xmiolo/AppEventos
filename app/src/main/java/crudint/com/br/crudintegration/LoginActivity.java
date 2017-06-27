@@ -33,6 +33,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import crudint.com.br.crudintegration.util.Session;
+
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
@@ -43,6 +45,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     /**
      * Id to identity READ_CONTACTS permission request.
      */
+    private Session session;
     private static final int REQUEST_READ_CONTACTS = 0;
 
     /**
@@ -198,6 +201,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
             System.out.println("Logou");
+
+            session = new Session(this);
+            session.setusename(email);
             mAuthTask.execute((Void) null);
             startActivity(intent);
         }

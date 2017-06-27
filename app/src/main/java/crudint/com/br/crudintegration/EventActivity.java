@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import crudint.com.br.crudintegration.util.Session;
+
 public class EventActivity extends AppCompatActivity {
 
     private EditText eventName;
@@ -17,6 +19,8 @@ public class EventActivity extends AppCompatActivity {
     private LatLng latLongEvent;
     private Button btnSalvar;
 
+    private Session session;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +28,7 @@ public class EventActivity extends AppCompatActivity {
         TextView localEvento = (TextView) findViewById(R.id.txtLocalEvento);
         latLongEvent = (LatLng)getIntent().getExtras().getParcelable("LATLONG");
         System.out.println(latLongEvent.toString());
+
         localEvento.setText(getIntent().getStringExtra("LUGAR"));
 
         eventName = (EditText) findViewById(R.id.eventName);
