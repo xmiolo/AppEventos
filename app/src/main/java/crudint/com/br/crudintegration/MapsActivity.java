@@ -57,7 +57,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mMap.addMarker(new MarkerOptions().position(enderecoSelecionadoLtLn).title(place.getName().toString()));
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(enderecoSelecionadoLtLn));
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(enderecoSelecionadoLtLn, 12.0f));
-                openEventAct(place);
+                //TODO
+                //TIREI PRA CRIAR O EXEMPLO
+                //openEventAct(place);
 
 
             }

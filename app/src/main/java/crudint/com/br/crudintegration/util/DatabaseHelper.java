@@ -69,6 +69,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_USUARIO);
         db.execSQL(CREATE_TABLE_EVENTO);
         db.execSQL(CREATE_TABLE_USUARUI_EVENTO);
+        db.execSQL("INSERT INTO "+TABLE_USUARIO+" (id, email, senha, nome) values (1,'admin@admin.com','123','Gregori');");
     }
 
     @Override
@@ -77,13 +78,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USUARIO);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_EVENTO);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USUARIO_EVENTO);
+        db.execSQL("INSERT INTO "+TABLE_USUARIO+" (id, email, senha, nome) values (1,'admin@admin.com','123','Gregori');");
+
 
         // create new tables
         onCreate(db);
     }
 
 
-    public long criaUsuario(Usuario todo, long[] eventos_ids) {
+    public long criaUsuario(Usuario todo) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -94,11 +97,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // insert row
         long usuario_id = db.insert(TABLE_USUARIO, null, values);
 
-        // assigning tags to todo
+        /*// assigning tags to todo
         for (long evento_id : eventos_ids) {
             createUsuarioEvento(usuario_id, evento_id);
-        }
-
+        }*/
+        System.out.println("Usuario criado com sucesso: "+todo.getNome());
         return usuario_id;
     }
     public long createUsuarioEvento(long usuario_id, long evento_id) {
@@ -112,7 +115,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return id;
     }
-    public Usuario getUsuario(long usuario_id) {
+    public Usuario getUsuarioById(long usuario_id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         String selectQuery = "SELECT  * FROM " + TABLE_USUARIO + " WHERE "
@@ -121,15 +124,65 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log.e(LOG, selectQuery);
 
         Cursor c = db.rawQuery(selectQuery, null);
-
-        if (c != null)
+        Usuario td = new Usuario();
+        if (c!= null && c.getCount() > 0 && c.moveToFirst()) {
             c.moveToFirst();
 
-        Usuario td = new Usuario();
-        td.setId(c.getInt(c.getColumnIndex(KEY_ID)));
-        td.setEmail((c.getString(c.getColumnIndex(EMAIL))));
-        td.setNome(c.getString(c.getColumnIndex(NOME)));
+            td.setId(c.getInt(c.getColumnIndex(KEY_ID)));
+            td.setEmail((c.getString(c.getColumnIndex(EMAIL))));
+            td.setNome(c.getString(c.getColumnIndex(NOME)));
+        }
+
 
         return td;
+    }
+
+    public Usuario getUsuarioByEmail(String email) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String selectQuery = "SELECT  * FROM " + TABLE_USUARIO + " WHERE "
+                + EMAIL + " = '" + email+"';";
+
+        Log.e(LOG, selectQuery);
+
+        Cursor c = db.rawQuery(selectQuery, null);
+        Usuario td = new Usuario();
+        if (c!= null && c.getCount() > 0 && c.moveToFirst()) {
+            c.moveToFirst();
+
+            td.setId(c.getInt(c.getColumnIndex(KEY_ID)));
+            td.setEmail((c.getString(c.getColumnIndex(EMAIL))));
+            td.setNome(c.getString(c.getColumnIndex(NOME)));
+        }
+
+
+        return td;
+    }
+
+    public Usuario autentica(String email, String senha) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        System.out.println("DATABASE HELPER Autenticar");
+        String selectQuery = "SELECT  * FROM " + TABLE_USUARIO + " WHERE "
+                + EMAIL + " = '" + email + "' AND "+SENHA+" = '"+senha+"';";
+
+        Log.e(LOG, selectQuery);
+
+        Cursor c = db.rawQuery(selectQuery, null);
+        Usuario td = new Usuario();
+        if (c!= null && c.getCount() > 0 && c.moveToFirst()) {
+            c.moveToFirst();
+            td.setId(c.getInt(c.getColumnIndex(KEY_ID)));
+            td.setEmail((c.getString(c.getColumnIndex(EMAIL))));
+            td.setNome(c.getString(c.getColumnIndex(NOME)));
+        }
+
+
+
+        return td;
+    }
+    public void closeDB() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        if (db != null && db.isOpen())
+            db.close();
     }
 }

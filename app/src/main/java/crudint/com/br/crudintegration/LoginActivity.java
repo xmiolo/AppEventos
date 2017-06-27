@@ -33,6 +33,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import crudint.com.br.crudintegration.controller.UsuarioController;
+import crudint.com.br.crudintegration.model.Usuario;
 import crudint.com.br.crudintegration.util.Session;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -63,6 +65,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
+    private TextView txtMessage;
     private View mProgressView;
     private View mLoginFormView;
 
@@ -96,6 +99,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+        Usuario newUser = new Usuario();
+        newUser.setEmail("admin@admin.com");
+        newUser.setNome("GREGORI R BEDIN");
+        newUser.setSenha("123");
+
+        UsuarioController uController = new UsuarioController(this);
+        uController.criarUsuario(newUser);
     }
 
     private void populateAutoComplete() {
@@ -187,25 +197,22 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             focusView.requestFocus();
         } else {
 
-            //TODO
-            //Tem que armazenar os dados do login/usuario pra mover pro maps
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
 
-            Intent intent = new Intent(this, MapsActivity.class);
+
             //EditText editText = (EditText) findViewById(R.id.edit_message);
             //String message = editText.getText().toString();
             //intent.putExtra(EXTRA_MESSAGE, message);
 
 
-            showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            System.out.println("Logou");
 
-            session = new Session(this);
-            session.setusename(email);
-            mAuthTask.execute((Void) null);
+            mAuthTask = new UserLoginTask(email, password);
+
+
+            Intent intent = new Intent(this, MapsActivity.class);
+            showProgress(true);
             startActivity(intent);
+            mAuthTask.execute((Void) null);
+
         }
     }
 
@@ -334,16 +341,21 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 return false;
             }
 
-            for (String credential : DUMMY_CREDENTIALS) {
+            /*for (String credential : DUMMY_CREDENTIALS) {
                 String[] pieces = credential.split(":");
                 if (pieces[0].equals(mEmail)) {
                     // Account exists, return true if the password matches.
                     return pieces[1].equals(mPassword);
                 }
-            }
-
+            }*/
+            UsuarioController uController = new UsuarioController(getApplicationContext());
+            session = new Session(getApplicationContext());
+            session.setusename(uController.autenticar(mEmail,mPassword).getEmail());
+            if(session.getusename().length()>=3){
+                return true;
+            } else return false;
             // TODO: register the new account here.
-            return true;
+            //return true;
         }
 
         @Override
@@ -354,7 +366,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             if (success) {
                 finish();
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
+                mPasswordView.setError("Email ou senha inválidos!");
                 mPasswordView.requestFocus();
             }
         }
