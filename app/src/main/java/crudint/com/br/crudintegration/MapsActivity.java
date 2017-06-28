@@ -25,6 +25,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
+import java.util.ArrayList;
+
+import crudint.com.br.crudintegration.controller.EventController;
+import crudint.com.br.crudintegration.model.Evento;
 import crudint.com.br.crudintegration.util.GooglePlacesAutompleteAdapter;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -58,8 +62,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mMap.addMarker(new MarkerOptions().position(enderecoSelecionadoLtLn).title(place.getName().toString()));
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(enderecoSelecionadoLtLn));
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(enderecoSelecionadoLtLn, 12.0f));
-                //TODO
-                //TIREI PRA CRIAR O EXEMPLO
                 openEventAct(place);
 
 
@@ -73,34 +75,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-/*        GooglePlacesAutompleteAdapter dataAdapter = new GooglePlacesAutompleteAdapter(MapsActivity.this, R.layout.activity_maps_manual);
-
-
-        ListView listView = (ListView) findViewById(R.id.listView1);
-        // Assign adapter to ListView
-        listView.setAdapter(dataAdapter);
-
-        //enables filtering for the contents of the given ListView
-        listView.setTextFilterEnabled(true);*/
-
-           /* //enables filtering for the contents of the given ListView
-        listView.setTextFilterEnabled(true);
-
-        cetEnterLocation.addTextChangedListener(new TextWatcher() {
-
-            public void afterTextChanged(Editable s) {
-            }
-
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                dataAdapter.getFilter().filter(s.toString());
-            }
-        });*/
+        this.addMarkers();
     }
 
+    public void addMarkers(){
+        EventController eController = new EventController(this);
+        ArrayList<Evento> todosEventos = new ArrayList<Evento>();
+        todosEventos = eController.listarEventos(this);
+        for(Evento evento : todosEventos){
+            mMap.addMarker(new MarkerOptions().position(evento.getLatLng()).title(evento.getNome()));
+        }
+
+    }
 
     /**
      * Manipulates the map once available.

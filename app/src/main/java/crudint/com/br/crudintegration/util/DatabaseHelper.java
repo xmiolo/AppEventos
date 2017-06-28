@@ -11,6 +11,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.google.android.gms.maps.model.LatLng;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import crudint.com.br.crudintegration.model.Evento;
 import crudint.com.br.crudintegration.model.Usuario;
 
@@ -106,6 +111,39 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return usuario_id;
     }
 
+    /**
+     * Lista todos Eventos
+     * @param cont
+     * @return
+     */
+    public ArrayList<Evento> listEventos(Context cont){
+        /*String[] latlong =  "-34.8799074,174.7565664".split(",");
+        double latitude = Double.parseDouble(latlong[0]);
+        double longitude = Double.parseDouble(latlong[1]);*/
+        ArrayList<Evento> todos = new ArrayList<Evento>();
+        String selectQuery = "SELECT  * FROM " + TABLE_EVENTO;
+
+        Log.e(LOG, selectQuery);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        /*if (c!= null && c.getCount() > 0 && c.moveToFirst()) {
+            do {
+                String[] latlong = c.getString(c.getColumnIndex("latlng")).split(",");
+                Evento td = new Evento();
+                td.setId(c.getInt((c.getColumnIndex(KEY_ID))));
+                td.setLatLng(new LatLng(Double.parseDouble(latlong[0]),Double.parseDouble(latlong[1])));
+                td.setData(c.getString(c.getColumnIndex("data")));
+                td.setNome(c.getString(c.getColumnIndex("nome")));
+                td.setObs(c.getString(c.getColumnIndex("obs")));
+                todos.add(td);
+            } while (c.moveToNext());
+        }*/
+
+        return todos;
+    }
     /**
      * Insere evento no banco
      * @param evento

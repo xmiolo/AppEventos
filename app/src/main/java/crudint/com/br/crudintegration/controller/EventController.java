@@ -2,6 +2,9 @@ package crudint.com.br.crudintegration.controller;
 
 import android.content.Context;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import crudint.com.br.crudintegration.model.Evento;
 import crudint.com.br.crudintegration.util.DatabaseHelper;
 
@@ -23,6 +26,9 @@ public class EventController {
         if(l != null){
             return true;
         } return false;
+    }
 
+    public ArrayList<Evento> listarEventos(Context context){
+        return db.listEventos(context);
     }
 }
