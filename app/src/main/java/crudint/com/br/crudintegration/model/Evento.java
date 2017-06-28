@@ -55,4 +55,15 @@ public class Evento {
     public void setData(String data) {
         this.data = data;
     }
+
+    @Override
+    public String toString() {
+        return "Evento{" +
+                "id=" + id +
+                ", latLng=" + latLng +
+                ", nome='" + nome + '\'' +
+                ", obs='" + obs + '\'' +
+                ", data='" + data + '\'' +
+                '}';
+    }
 }

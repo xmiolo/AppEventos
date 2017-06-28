@@ -1,5 +1,6 @@
 package crudint.com.br.crudintegration;
 
+import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -59,7 +60,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(enderecoSelecionadoLtLn, 12.0f));
                 //TODO
                 //TIREI PRA CRIAR O EXEMPLO
-                //openEventAct(place);
+                openEventAct(place);
 
 
             }
@@ -130,9 +131,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         intent.putExtra("LUGAR", place.getName());
         intent.putExtra("LATLONG", place.getLatLng());
         startActivity(intent);
+        //startActivityForResult(intent, RESULT_OK);
+        //startActivityForResults(myIntent, MY_REQUEST_CODE);
     }
-
-
 
 
 }

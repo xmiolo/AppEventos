@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import crudint.com.br.crudintegration.model.Evento;
 import crudint.com.br.crudintegration.model.Usuario;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -51,7 +52,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Tag table create statement
     private static final String CREATE_TABLE_EVENTO = "CREATE TABLE " + TABLE_EVENTO
-            + "(" + KEY_ID + " INTEGER PRIMARY KEY, nome TEXT,data DATETIME, obs TEXT, latLng TEXT)";
+            + "(" + KEY_ID + " INTEGER PRIMARY KEY, nome TEXT,data DATETIME, obs TEXT, latlng TEXT)";
 
     // todo_tag table create statement
     private static final String CREATE_TABLE_USUARUI_EVENTO = "CREATE TABLE "
@@ -104,14 +105,44 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         System.out.println("Usuario criado com sucesso: "+todo.getNome());
         return usuario_id;
     }
-    public long createUsuarioEvento(long usuario_id, long evento_id) {
+
+    /**
+     * Insere evento no banco
+     * @param evento
+     * @return
+     */
+    public Long criaEvento(Evento evento, Context contexto) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("nome", evento.getNome());
+        values.put("obs", evento.getObs());
+        values.put("latlng", evento.getLatLng().toString());
+        values.put("data", evento.getData());
+
+        Long eventoId = db.insert(TABLE_EVENTO, null, values);
+        Session session = new Session(contexto);
+
+        Long l = createUsuarioEvento(session.getid(),eventoId);
+
+        System.out.println("Evento criado com sucesso: "+evento.getNome() + " - ID "+l);
+        return eventoId;
+    }
+
+    /**
+     * Insere relação de evento no banco
+     * @param usuario_id
+     * @param evento_id
+     * @return
+     */
+    public Long createUsuarioEvento(long usuario_id, long evento_id) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(KEY_USUARIO_ID, usuario_id);
         values.put(KEY_EVENTO_ID, evento_id);
 
-        long id = db.insert(TABLE_USUARIO_EVENTO, null, values);
+        Long id = db.insert(TABLE_USUARIO_EVENTO, null, values);
 
         return id;
     }
