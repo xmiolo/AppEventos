@@ -28,6 +28,11 @@ public class EventController {
         } return false;
     }
 
+    /**
+     * Listar Eventos
+     * @param context
+     * @return
+     */
     public ArrayList<Evento> listarEventos(Context context){
         return db.listEventos(context);
     }
