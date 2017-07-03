@@ -49,7 +49,6 @@ public class EventController {
     public Evento getEventByMarker(Marker mark){
         Evento ev = new Evento();
         ev.setLatLng(mark.getPosition());
-        ev.setNome(mark.getTitle());
 
         return db.getEvent(ev);
 

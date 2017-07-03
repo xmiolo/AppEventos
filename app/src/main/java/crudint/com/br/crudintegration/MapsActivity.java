@@ -118,7 +118,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public boolean onMarkerClick(Marker marker) {
                 ClckEventActivity clckEvent = new ClckEventActivity(MapsActivity.this,marker);
                 clckEvent.show();
-                System.out.println(marker.getTitle());
+                //System.out.println(marker.getTitle());
                 return false;
             }
         });

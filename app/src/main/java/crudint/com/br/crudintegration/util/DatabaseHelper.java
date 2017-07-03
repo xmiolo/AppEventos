@@ -161,18 +161,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Evento getEvent(Evento ev) {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        String selectQuery = "SELECT  * FROM " + TABLE_EVENTO + " WHERE "
-                + NOME + " = '" + ev.getNome()+"' and latlng = '"+ev.getLatLng()+"';";
+        String selectQuery = "SELECT  * FROM " + TABLE_EVENTO + " WHERE latlng = '"+ev.getLatLng()+"';";
 
         Log.e(LOG, selectQuery);
 
         Cursor c = db.rawQuery(selectQuery, null);
         Evento eventoReturn = new Evento();
         if (c!= null && c.getCount() > 0 && c.moveToFirst()) {
-            c.moveToFirst();
+
 
             eventoReturn.setId(c.getInt(c.getColumnIndex(KEY_ID)));
-            eventoReturn.setNome(ev.getNome());
+            eventoReturn.setNome(c.getString(c.getColumnIndex("nome")));
             eventoReturn.setObs(c.getString(c.getColumnIndex("obs")));
             eventoReturn.setData(c.getString(c.getColumnIndex("data")));
             eventoReturn.setLatLng(ev.getLatLng());

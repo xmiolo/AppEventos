@@ -35,6 +35,7 @@ public class ClckEventActivity extends Dialog implements android.view.View.OnCli
     public ClckEventActivity(Activity a, Marker mark) {
         super(a);
         // TODO Auto-generated constructor stub
+        System.out.println("POSITION---- "+mark.getPosition());
         this.marker = mark;
         this.c = a;
     }
