@@ -121,28 +121,66 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         double latitude = Double.parseDouble(latlong[0]);
         double longitude = Double.parseDouble(latlong[1]);*/
         ArrayList<Evento> todos = new ArrayList<Evento>();
-        String selectQuery = "SELECT  * FROM " + TABLE_EVENTO;
+        String selectQuery = "SELECT  id, nome,data,obs,latlng FROM " + TABLE_EVENTO+";";
 
-        Log.e(LOG, selectQuery);
+        System.out.println(selectQuery);
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
 
+        //System.out.println("CURSOR: "+c.getPosition()+" COUNT: "+c.getColumnCount());
         // looping through all rows and adding to list
-        /*if (c!= null && c.getCount() > 0 && c.moveToFirst()) {
+        if (c != null && c.getCount() > 0 && c.moveToFirst()) {
+            /*System.out.println("COLUNAS: "+c.getColumnName(0));
+            System.out.println("COLUNAS: "+c.getColumnName(1));
+            System.out.println("COLUNAS: "+c.getColumnName(2));
+            System.out.println("COLUNAS: "+c.getColumnName(3));
+            System.out.println("COLUNAS: "+c.getColumnName(4));*/
             do {
-                String[] latlong = c.getString(c.getColumnIndex("latlng")).split(",");
                 Evento td = new Evento();
-                td.setId(c.getInt((c.getColumnIndex(KEY_ID))));
+                td.setId(c.getInt(0));
+                td.setNome(c.getString(1));
+                td.setData(c.getString(2));
+                td.setObs(c.getString(3));
+                String[] latlong = c.getString(4).replace("lat/lng: (", "").replace(")","").split(",");
+                System.out.println("LATLANG "+latlong + " GETSTRNG: "+c.getString(4).replace("lat/lng: (", "").replace(")",""));
+
+
                 td.setLatLng(new LatLng(Double.parseDouble(latlong[0]),Double.parseDouble(latlong[1])));
-                td.setData(c.getString(c.getColumnIndex("data")));
-                td.setNome(c.getString(c.getColumnIndex("nome")));
-                td.setObs(c.getString(c.getColumnIndex("obs")));
+
+
+
                 todos.add(td);
             } while (c.moveToNext());
-        }*/
+        }
 
         return todos;
+    }
+
+
+    public Evento getEvent(Evento ev) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String selectQuery = "SELECT  * FROM " + TABLE_EVENTO + " WHERE "
+                + NOME + " = '" + ev.getNome()+"' and latlng = '"+ev.getLatLng()+"';";
+
+        Log.e(LOG, selectQuery);
+
+        Cursor c = db.rawQuery(selectQuery, null);
+        Evento eventoReturn = new Evento();
+        if (c!= null && c.getCount() > 0 && c.moveToFirst()) {
+            c.moveToFirst();
+
+            eventoReturn.setId(c.getInt(c.getColumnIndex(KEY_ID)));
+            eventoReturn.setNome(ev.getNome());
+            eventoReturn.setObs(c.getString(c.getColumnIndex("obs")));
+            eventoReturn.setData(c.getString(c.getColumnIndex("data")));
+            eventoReturn.setLatLng(ev.getLatLng());
+
+        }
+
+
+        return eventoReturn;
     }
     /**
      * Insere evento no banco

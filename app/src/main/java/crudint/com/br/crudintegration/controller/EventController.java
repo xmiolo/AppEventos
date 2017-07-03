@@ -2,6 +2,9 @@ package crudint.com.br.crudintegration.controller;
 
 import android.content.Context;
 
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +25,7 @@ public class EventController {
 
     public boolean criarEvento(Evento ev, Context context){
         //System.out.println(ev);
+
         Long l = db.criaEvento(ev, context);
         if(l != null){
             return true;
@@ -35,5 +39,20 @@ public class EventController {
      */
     public ArrayList<Evento> listarEventos(Context context){
         return db.listEventos(context);
+    }
+
+    /**
+     * Busca evento a partir de uma marker
+     * @param mark
+     * @return
+     */
+    public Evento getEventByMarker(Marker mark){
+        Evento ev = new Evento();
+        ev.setLatLng(mark.getPosition());
+        ev.setNome(mark.getTitle());
+
+        return db.getEvent(ev);
+
+        //return null;
     }
 }

@@ -20,8 +20,10 @@ public class EventActivity extends AppCompatActivity {
     private EditText eventName;
     private EditText eventDate;
     private EditText eventObs;
+
     private LatLng latLongEvent;
     private Button btnSalvar;
+    private Evento evento;
 
     private Session session;
 
@@ -32,13 +34,34 @@ public class EventActivity extends AppCompatActivity {
         TextView localEvento = (TextView) findViewById(R.id.txtLocalEvento);
         latLongEvent = (LatLng)getIntent().getExtras().getParcelable("LATLONG");
         System.out.println(latLongEvent.toString());
+        evento = new Evento();
+        localEvento.setText(getIntent().getStringExtra("TITLE"));
 
-        localEvento.setText(getIntent().getStringExtra("LUGAR"));
 
         eventName = (EditText) findViewById(R.id.eventName);
         eventDate = (EditText) findViewById(R.id.eventDate);
         eventObs = (EditText) findViewById(R.id.eventObs);
+        if(getIntent().getStringExtra("TELA").equals("dialog")){
+            evento.setObs(getIntent().getStringExtra("OBS"));
+            eventObs.setText(getIntent().getStringExtra("OBS"));
+            evento.setId(getIntent().getIntExtra("ID",0));
+            evento.setData(getIntent().getStringExtra("DATA"));
+            eventDate.setText(getIntent().getStringExtra("DATA"));
+            evento.setNome(getIntent().getStringExtra("NOME"));
+            eventName.setText(getIntent().getStringExtra("NOME"));
+            evento.setLatLng(latLongEvent);
+            System.out.println("EVENTO DENTRO DO EVENT "+evento);
+        }
 
+
+
+
+
+        /*intent.putExtra("NOME", place.getName());
+        intent.putExtra("LATLONG", place.getLatLng());
+        intent.putExtra("OBS", place.getLatLng());
+        intent.putExtra("ID", place.getLatLng());
+        intent.putExtra("DATA", place.getLatLng());*/
         btnSalvar = (Button) findViewById(R.id.btnSalvar);
         btnSalvar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -48,7 +71,7 @@ public class EventActivity extends AppCompatActivity {
     }
 
     public void saveEvent(){
-        Evento evento = new Evento();
+        //evento = new Evento();
         evento.setNome(eventName.getText().toString());
         evento.setData(eventDate.getText().toString());
         evento.setLatLng(latLongEvent);
