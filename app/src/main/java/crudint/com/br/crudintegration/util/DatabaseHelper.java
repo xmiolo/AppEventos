@@ -158,6 +158,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
+    public boolean atualizaEvento(Evento ev){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("nome",ev.getNome()); //These Fields should be your String values of actual column names
+        cv.put("data",ev.getData());
+        cv.put("obs",ev.getObs());
+        if(db.update(TABLE_EVENTO, cv, "id="+ev.getId(), null)==ev.getId()){
+            return true;
+        } return false;
+    }
+
     public Evento getEvent(Evento ev) {
         SQLiteDatabase db = this.getReadableDatabase();
 

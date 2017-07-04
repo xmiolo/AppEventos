@@ -54,4 +54,11 @@ public class EventController {
 
         //return null;
     }
+
+    /**
+     * Atualiza evento
+     */
+    public boolean atualizaEvent(Evento evento){
+        return db.atualizaEvento(evento);
+    }
 }

@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
@@ -36,6 +37,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private PlaceAutocompleteFragment autocompleteFragment;
+    public static final int REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,14 +131,33 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void openEventAct(Place place){
-        Intent intent = new Intent(this, EventActivity.class);
+        Intent intent = new Intent(getApplicationContext(), EventActivity.class);
         intent.putExtra("TELA", "maps");
         intent.putExtra("TITLE", place.getName());
         intent.putExtra("LATLONG", place.getLatLng());
 
-        startActivity(intent);
+        startActivityForResult(intent, REQUEST_CODE);
+        //startActivity(intent);
         //startActivityForResult(intent, RESULT_OK);
         //startActivityForResults(myIntent, MY_REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.i("H", "RequestCode:" + requestCode);
+        Log.i("H", "ResultCode:" + resultCode );
+        try {
+            super.onActivityResult(requestCode, resultCode, data);
+
+            if (requestCode == REQUEST_CODE  && resultCode  == RESULT_OK) {
+
+                String requiredValue = data.getStringExtra("Key");
+            }
+        } catch (Exception ex) {
+            Toast.makeText(MapsActivity.this, ex.toString(),
+                    Toast.LENGTH_SHORT).show();
+        }
+
     }
 
 

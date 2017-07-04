@@ -2,8 +2,10 @@ package crudint.com.br.crudintegration;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,7 +17,7 @@ import crudint.com.br.crudintegration.controller.EventController;
 import crudint.com.br.crudintegration.model.Evento;
 import crudint.com.br.crudintegration.util.Session;
 
-public class EventActivity extends AppCompatActivity {
+public class EventActivity extends FragmentActivity {
 
     private EditText eventName;
     private EditText eventDate;
@@ -50,7 +52,7 @@ public class EventActivity extends AppCompatActivity {
             evento.setNome(getIntent().getStringExtra("NOME"));
             eventName.setText(getIntent().getStringExtra("NOME"));
             evento.setLatLng(latLongEvent);
-            System.out.println("EVENTO DENTRO DO EVENT "+evento);
+            //System.out.println("EVENTO DENTRO DO EVENT "+evento);
         }
 
 
@@ -77,14 +79,30 @@ public class EventActivity extends AppCompatActivity {
         evento.setLatLng(latLongEvent);
         evento.setObs(eventObs.getText().toString());
         EventController eController = new EventController(getApplicationContext());
-        if(eController.criarEvento(evento, getApplicationContext())){
+        if(evento.getId() >0){
+           //TODO
+            //ATUALIZA
+            boolean b = eController.atualizaEvent(evento);
+            Log.e("EVENTO", "Evento"+ evento.getNome()+" - Atualizado");
+
+            /*Intent returnIntent = new Intent();
+            returnIntent.putExtra("result", "OOOOOOOOOOOOOO");*/
+            Log.i("S","Exiting Second Activity");
+            Intent intent = getIntent();
+            intent.putExtra("key", "SOAKOKSAOKSOAKOSKOAKSOKAOSKOAKSOKSAOK");
+            setResult(RESULT_OK, intent);
+            finish();
+
+
+        } else if(eController.criarEvento(evento, getApplicationContext())){
             /*Intent mess = new Intent();
             // TODO APRIMORAR
             mess.putExtra("NOMEEVENTO", evento.getNome());
             setResult(MapsActivity.RESULT_OK, mess);*/
+            Log.e("EVENTO", "Evento"+ evento.getNome()+" - Inserido");
             finish();
         } else {
-            System.out.println("OPA");
+            Log.e("EVENTO", "Evento"+ evento.getNome()+" - ERROR!");
         }
 
     }
