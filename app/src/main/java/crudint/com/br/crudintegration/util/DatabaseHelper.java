@@ -169,6 +169,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } return false;
     }
 
+    public boolean removeEvento(Evento ev){
+        SQLiteDatabase db = this.getReadableDatabase();
+        try {
+            db.delete(TABLE_EVENTO, "id="+ev.getId(), null);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
     public Evento getEvent(Evento ev) {
         SQLiteDatabase db = this.getReadableDatabase();
 

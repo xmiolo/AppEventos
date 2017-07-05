@@ -1,18 +1,9 @@
 package crudint.com.br.crudintegration;
 
-import android.app.Activity;
-import android.app.DialogFragment;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.location.Location;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
@@ -31,7 +22,6 @@ import java.util.ArrayList;
 
 import crudint.com.br.crudintegration.controller.EventController;
 import crudint.com.br.crudintegration.model.Evento;
-import crudint.com.br.crudintegration.util.GooglePlacesAutompleteAdapter;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback{
 
@@ -44,9 +34,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
 
-
         setContentView(R.layout.activity_maps_manual);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -58,30 +46,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
-                // TODO: obter informações sobre o local selecionado.
-                //s
-                //System.out.println("Lugar selecionado: "+ place.getLatLng());
                 LatLng enderecoSelecionadoLtLn = place.getLatLng();
                 mMap.addMarker(new MarkerOptions().position(enderecoSelecionadoLtLn).title(place.getName().toString()));
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(enderecoSelecionadoLtLn));
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(enderecoSelecionadoLtLn, 12.0f));
                 openEventAct(place);
-
-
             }
-
             @Override
             public void onError(Status status) {
-                // TODO: Solucionar o erro.
-                System.out.println("errroO@! "+status);
-                //Log.i(TAG, "Ocorreu um erro: " + status);
+                Log.i("ERR", "Ocorreu um erro: " + status);
             }
         });
-
-
-        //this.addMarkers();
     }
-
 
     public void addMarkers(){
         EventController eController = new EventController(this);
@@ -93,25 +69,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        //GPSTracker gps = new GPSTracker(this);
 
         LatLng lalg = new LatLng(-29.166709,-51.516986);
-
-        mMap.addMarker(new MarkerOptions().position(lalg).title("Sua localização"));
+        //TODO
+        //Repensar isso
+        //mMap.addMarker(new MarkerOptions().position(lalg).title("Sua localização"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(lalg));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(lalg, 5.0f));
+
 
         this.addMarkers();
 
@@ -120,14 +88,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public boolean onMarkerClick(Marker marker) {
                 ClckEventActivity clckEvent = new ClckEventActivity(MapsActivity.this,marker);
                 clckEvent.show();
-                //System.out.println(marker.getTitle());
                 return false;
             }
         });
-        // Add a marker in Sydney and move the camera
-        /*LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));*/
     }
 
     public void openEventAct(Place place){
@@ -135,30 +98,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         intent.putExtra("TELA", "maps");
         intent.putExtra("TITLE", place.getName());
         intent.putExtra("LATLONG", place.getLatLng());
-
-        startActivityForResult(intent, REQUEST_CODE);
-        //startActivity(intent);
-        //startActivityForResult(intent, RESULT_OK);
-        //startActivityForResults(myIntent, MY_REQUEST_CODE);
+        startActivity(intent);
     }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.i("H", "RequestCode:" + requestCode);
-        Log.i("H", "ResultCode:" + resultCode );
-        try {
-            super.onActivityResult(requestCode, resultCode, data);
-
-            if (requestCode == REQUEST_CODE  && resultCode  == RESULT_OK) {
-
-                String requiredValue = data.getStringExtra("Key");
-            }
-        } catch (Exception ex) {
-            Toast.makeText(MapsActivity.this, ex.toString(),
-                    Toast.LENGTH_SHORT).show();
-        }
-
-    }
-
-
 }

@@ -24,8 +24,6 @@ public class EventController {
     }
 
     public boolean criarEvento(Evento ev, Context context){
-        //System.out.println(ev);
-
         Long l = db.criaEvento(ev, context);
         if(l != null){
             return true;
@@ -49,10 +47,7 @@ public class EventController {
     public Evento getEventByMarker(Marker mark){
         Evento ev = new Evento();
         ev.setLatLng(mark.getPosition());
-
         return db.getEvent(ev);
-
-        //return null;
     }
 
     /**
@@ -60,5 +55,9 @@ public class EventController {
      */
     public boolean atualizaEvent(Evento evento){
         return db.atualizaEvento(evento);
+    }
+
+    public boolean removeEvento(Evento evento){
+        return db.removeEvento(evento);
     }
 }

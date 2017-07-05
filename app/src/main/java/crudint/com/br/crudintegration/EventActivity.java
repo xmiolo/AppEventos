@@ -1,15 +1,13 @@
 package crudint.com.br.crudintegration;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -35,7 +33,6 @@ public class EventActivity extends FragmentActivity {
         setContentView(R.layout.activity_event);
         TextView localEvento = (TextView) findViewById(R.id.txtLocalEvento);
         latLongEvent = (LatLng)getIntent().getExtras().getParcelable("LATLONG");
-        System.out.println(latLongEvent.toString());
         evento = new Evento();
         localEvento.setText(getIntent().getStringExtra("TITLE"));
 
@@ -52,18 +49,8 @@ public class EventActivity extends FragmentActivity {
             evento.setNome(getIntent().getStringExtra("NOME"));
             eventName.setText(getIntent().getStringExtra("NOME"));
             evento.setLatLng(latLongEvent);
-            //System.out.println("EVENTO DENTRO DO EVENT "+evento);
         }
 
-
-
-
-
-        /*intent.putExtra("NOME", place.getName());
-        intent.putExtra("LATLONG", place.getLatLng());
-        intent.putExtra("OBS", place.getLatLng());
-        intent.putExtra("ID", place.getLatLng());
-        intent.putExtra("DATA", place.getLatLng());*/
         btnSalvar = (Button) findViewById(R.id.btnSalvar);
         btnSalvar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -80,25 +67,21 @@ public class EventActivity extends FragmentActivity {
         evento.setObs(eventObs.getText().toString());
         EventController eController = new EventController(getApplicationContext());
         if(evento.getId() >0){
-           //TODO
-            //ATUALIZA
+
             boolean b = eController.atualizaEvent(evento);
             Log.e("EVENTO", "Evento"+ evento.getNome()+" - Atualizado");
 
-            /*Intent returnIntent = new Intent();
-            returnIntent.putExtra("result", "OOOOOOOOOOOOOO");*/
+            Toast toast = Toast.makeText(getApplicationContext(), "Evento Atualizado!", Toast.LENGTH_SHORT);
+            toast.show();
+
             Log.i("S","Exiting Second Activity");
-            Intent intent = getIntent();
-            intent.putExtra("key", "SOAKOKSAOKSOAKOSKOAKSOKAOSKOAKSOKSAOK");
-            setResult(RESULT_OK, intent);
+
             finish();
 
 
         } else if(eController.criarEvento(evento, getApplicationContext())){
-            /*Intent mess = new Intent();
-            // TODO APRIMORAR
-            mess.putExtra("NOMEEVENTO", evento.getNome());
-            setResult(MapsActivity.RESULT_OK, mess);*/
+            Toast toast = Toast.makeText(getApplicationContext(), "Evento Cadastrado!", Toast.LENGTH_SHORT);
+            toast.show();
             Log.e("EVENTO", "Evento"+ evento.getNome()+" - Inserido");
             finish();
         } else {

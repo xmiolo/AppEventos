@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.maps.model.Marker;
@@ -25,23 +26,17 @@ public class ClckEventActivity extends Dialog implements android.view.View.OnCli
     public Marker marker;
     public Dialog d;
     public Button edit, del;
+    private EventController eventController;
 
     public ClckEventActivity(Activity a) {
         super(a);
-        // TODO Auto-generated constructor stub
-
         this.c = a;
     }
     public ClckEventActivity(Activity a, Marker mark) {
         super(a);
-        // TODO Auto-generated constructor stub
-        System.out.println("POSITION---- "+mark.getPosition());
         this.marker = mark;
         this.c = a;
     }
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,17 +47,15 @@ public class ClckEventActivity extends Dialog implements android.view.View.OnCli
         del = (Button) findViewById(R.id.btn_del);
         edit.setOnClickListener(this);
         del.setOnClickListener(this);
-
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_edit:
-                EventController eventController = new EventController(this.getContext());
+                eventController = new EventController(this.getContext());
                 Evento eventoSelecionado = eventController.getEventByMarker(this.marker);
                 Intent intent = new Intent(c, EventActivity.class);
-                System.out.println("EVENTO no DIALOG :"+eventoSelecionado);
                 intent.putExtra("TELA", "dialog");
 
                 intent.putExtra("TITLE", "");
@@ -75,11 +68,21 @@ public class ClckEventActivity extends Dialog implements android.view.View.OnCli
                 //c.finish();
                 break;
             case R.id.btn_del:
-                dismiss();
+                eventController = new EventController(this.getContext());
+                Evento evento = eventController.getEventByMarker(this.marker);
+                if (eventController.removeEvento(evento)){
+                    Toast toast = Toast.makeText(this.getContext(), "Evento Excluído!", Toast.LENGTH_SHORT);
+                    toast.show();
+                } else {
+                    Toast toast = Toast.makeText(getContext(), "Falha ao Excluir Evento!", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
                 break;
             default:
                 break;
         }
         dismiss();
+        Intent inte = new Intent(c, MapsActivity.class);
+        c.startActivity(inte);
     }
 }

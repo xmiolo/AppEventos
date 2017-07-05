@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CRUDIntegracao.iml" filepath="$PROJECT_DIR$/CRUDIntegracao.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CRUDIntegration.iml" filepath="$PROJECT_DIR$/CRUDIntegration.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
