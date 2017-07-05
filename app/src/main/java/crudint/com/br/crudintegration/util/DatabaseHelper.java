@@ -202,6 +202,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return eventoReturn;
     }
+
+    public Evento getEvent(String nome) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String selectQuery = "SELECT  * FROM " + TABLE_EVENTO + " WHERE nome = '"+nome+"';";
+
+        Log.e(LOG, selectQuery);
+
+        Cursor c = db.rawQuery(selectQuery, null);
+        Evento eventoReturn = new Evento();
+        if (c!= null && c.getCount() > 0 && c.moveToFirst()) {
+
+
+            eventoReturn.setId(c.getInt(c.getColumnIndex(KEY_ID)));
+            eventoReturn.setNome(c.getString(c.getColumnIndex("nome")));
+            eventoReturn.setObs(c.getString(c.getColumnIndex("obs")));
+            eventoReturn.setData(c.getString(c.getColumnIndex("data")));
+            //eventoReturn.setLatLng(c.getString(c.getColumnIndex("latlng")));
+
+        }
+
+
+        return eventoReturn;
+    }
     /**
      * Insere evento no banco
      * @param evento

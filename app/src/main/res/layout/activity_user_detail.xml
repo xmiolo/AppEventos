@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="crudint.com.br.crudintegration.UserDetailActivity">
+
+    <GridLayout
+        android:layout_width="0dp"
+        android:layout_height="495dp"
+        tools:layout_editor_absoluteY="8dp"
+        tools:layout_editor_absoluteX="8dp">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="122dp"
+            android:layout_height="133dp"
+            app:srcCompat="@mipmap/ic_launcher"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="16dp" />
+
+        <TextView
+            android:id="@+id/lblNome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_row="1"
+            android:text="Meu nome:"
+            android:textSize="18sp"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="186dp" />
+
+        <TextView
+            android:id="@+id/txtNome"
+            android:layout_width="264dp"
+            android:layout_height="21dp"
+            android:layout_column="1"
+            android:layout_row="1"
+            android:textSize="18sp"
+            tools:layout_editor_absoluteX="110dp"
+            tools:layout_editor_absoluteY="186dp" />
+
+        <TextView
+            android:id="@+id/txtEmail"
+            android:layout_width="260dp"
+            android:layout_height="23dp"
+            android:layout_column="1"
+            android:layout_row="2"
+            android:textSize="16sp"
+            tools:layout_editor_absoluteX="112dp"
+            tools:layout_editor_absoluteY="232dp" />
+
+        <TextView
+            android:id="@+id/lblEmail"
+            android:layout_width="78dp"
+            android:layout_height="23dp"
+            android:layout_column="0"
+            android:layout_row="2"
+            android:text="Email:"
+            android:textSize="18sp"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="232dp" />
+
+    </GridLayout>
+
+</android.support.constraint.ConstraintLayout>

@@ -77,12 +77,13 @@ public class ClckEventActivity extends Dialog implements android.view.View.OnCli
                     Toast toast = Toast.makeText(getContext(), "Falha ao Excluir Evento!", Toast.LENGTH_SHORT);
                     toast.show();
                 }
+                Intent inte = new Intent(c, MapsActivity.class);
+                c.startActivity(inte);
                 break;
             default:
                 break;
         }
         dismiss();
-        Intent inte = new Intent(c, MapsActivity.class);
-        c.startActivity(inte);
+
     }
 }

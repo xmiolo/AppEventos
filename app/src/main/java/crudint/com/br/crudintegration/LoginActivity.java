@@ -72,9 +72,10 @@ public class LoginActivity extends AppCompatActivity {
 
         session.setusename(usu.getEmail());
         session.setid(usu.getId());
+        session.setnome(usu.getNome());
         if(session.getusename().length()>=3){
             //Autenticou
-            Intent intentToMap = new Intent(this, MapsActivity.class);
+            Intent intentToMap = new Intent(this, MenuActivity.class);
             startActivity(intentToMap);
         } else System.out.println("NOPS");
     }

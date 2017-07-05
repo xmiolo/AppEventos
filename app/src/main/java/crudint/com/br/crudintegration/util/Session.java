@@ -27,11 +27,20 @@ public class Session {
 
     public void setusename(String usename) {
         prefs.edit().putString("usename", usename).commit();
-       // prefsCommit();
+        // prefsCommit();
     }
 
     public String getusename() {
         String usename = prefs.getString("usename","");
         return usename;
+    }
+    public void setnome(String nome) {
+        prefs.edit().putString("nome", nome).commit();
+        // prefsCommit();
+    }
+
+    public String getnome() {
+        String nome = prefs.getString("nome","");
+        return nome;
     }
 }

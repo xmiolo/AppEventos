@@ -50,6 +50,9 @@ public class EventController {
         return db.getEvent(ev);
     }
 
+    public Evento getEventByName(String nome){
+        return db.getEvent(nome);
+    }
     /**
      * Atualiza evento
      */
