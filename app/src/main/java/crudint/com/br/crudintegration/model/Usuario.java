@@ -1,8 +1,6 @@
 package crudint.com.br.crudintegration.model;
 
-/**
- * Created by Gregori on 27/06/2017.
- */
+
 
 public class Usuario {
 

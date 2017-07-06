@@ -16,9 +16,7 @@ import com.google.android.gms.maps.model.Marker;
 import crudint.com.br.crudintegration.controller.EventController;
 import crudint.com.br.crudintegration.model.Evento;
 
-/**
- * Created by Gregori on 03/07/2017.
- */
+
 
 public class ClckEventActivity extends Dialog implements android.view.View.OnClickListener {
 

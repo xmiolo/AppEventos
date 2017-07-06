@@ -1,8 +1,6 @@
 package crudint.com.br.crudintegration.util;
 
-/**
- * Created by Gregori on 27/06/2017.
- */
+
 
 import android.content.ContentValues;
 import android.content.Context;

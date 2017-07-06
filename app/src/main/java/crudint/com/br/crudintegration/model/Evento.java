@@ -2,9 +2,6 @@ package crudint.com.br.crudintegration.model;
 
 import com.google.android.gms.maps.model.LatLng;
 
-/**
- * Created by Gregori on 27/06/2017.
- */
 
 public class Evento {
 

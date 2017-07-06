@@ -18,9 +18,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
-/**
- * Created by Gregori on 24/06/2017.
- */
+
 
 public class GooglePlacesAutompleteAdapter extends ArrayAdapter implements Filterable {
     private static final String LOG_TAG = "Google Places Autocomplete";
